@@ -12,6 +12,24 @@ class Graph:
     for u,v in connections:
       self.add_edge(u,v)
       
+  def print_cycle_util(self,u,visited,T):
+    visited[u] = True
+    T.append(u)
+    for v in self.graph[u]:
+      if not visited[v]:
+        self.print_cycle_util(v,visited,T)
+      
+  def print_cycle(self,u):
+    T = []
+    visited = defaultdict(lambda : False)
+    visited[u] = True
+    
+    for v in self.graph[u]:
+      if not visited[v]:
+        T.append(u)
+        self.print_cycle_util(v,visited,T)
+    return T
+      
   def is_dag(self):
     in_degree = Counter()
     for nodes in self.graph.values():
